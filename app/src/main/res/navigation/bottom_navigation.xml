@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="io.github.shams66789.budgetminder.ui.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="io.github.shams66789.budgetminder.ui.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="io.github.shams66789.budgetminder.ui.StatisticsFragment"
+        android:label="fragment_statistics"
+        tools:layout="@layout/fragment_statistics" />
+    <fragment
+        android:id="@+id/transactionFragment"
+        android:name="io.github.shams66789.budgetminder.ui.TransactionFragment"
+        android:label="fragment_transaction"
+        tools:layout="@layout/fragment_transaction" />
+</navigation>
