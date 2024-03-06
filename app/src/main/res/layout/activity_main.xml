@@ -7,10 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="io.github.shams66789.budgetminder.ui.HomeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        app:layout_anchor="@id/bottomAppBar"
+        app:layout_anchorGravity="top" />
+
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         app:fabCradleMargin="16dp"
         app:fabCradleVerticalOffset="10dp"
         app:fabCradleRoundedCornerRadius="20dp"
@@ -30,7 +40,11 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#7F3DFF"
         android:src="@drawable/baseline_add_24"
         app:layout_anchor="@id/bottomAppBar" />
+
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
