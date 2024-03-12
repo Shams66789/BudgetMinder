@@ -13,8 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="20dp"
+        android:paddingBottom="30dp"
         app:layout_anchor="@id/bottomAppBar"
-        app:layout_anchorGravity="top" />
+        app:layout_anchorGravity="top" >
+
+
+    </androidx.fragment.app.FragmentContainerView>
+
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -32,7 +37,9 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:background="@android:color/transparent"
-            app:menu="@menu/menu" />
+            app:menu="@menu/menu" >
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -42,9 +49,8 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#7F3DFF"
         android:src="@drawable/baseline_add_24"
-        app:layout_anchor="@id/bottomAppBar" />
-
-
+        app:layout_anchor="@+id/fragmentContainerView"
+        app:layout_anchorGravity="bottom|center" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
