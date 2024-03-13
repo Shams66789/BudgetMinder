@@ -10,8 +10,7 @@ import androidx.room.Update
 import io.github.shams66789.budgetminder.roomdb.entity.BudgetMinder
 
 @Dao
-interface BudgetMinderDao {
-
+interface Dao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun createEntry(budgetMinder : BudgetMinder) : Long
 

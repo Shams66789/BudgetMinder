@@ -14,18 +14,18 @@ class Repo(context: Context) {
     }
 
     fun getData(): LiveData<List<BudgetMinder>>? {
-        return database?.BudgetMinderDao()?.getEntry()
+        return database?.getBudgetMinderDao()?.getEntry()
     }
 
     fun addData(budgetMinder : BudgetMinder) : Long? {
-        return database?.BudgetMinderDao()?.createEntry(budgetMinder)
+        return database?.getBudgetMinderDao()?.createEntry(budgetMinder)
     }
 
     fun deleteData(budgetMinder: BudgetMinder) {
-        database?.BudgetMinderDao()?.deleteEntry(budgetMinder)
+        database?.getBudgetMinderDao()?.deleteEntry(budgetMinder)
     }
 
     fun  updateData(budgetMinder: BudgetMinder): Int? {
-        return database?.BudgetMinderDao()?.updateEntry(budgetMinder)
+        return database?.getBudgetMinderDao()?.updateEntry(budgetMinder)
     }
 }
