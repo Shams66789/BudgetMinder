@@ -5,56 +5,116 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.shams66789.budgetminder.R
+import io.github.shams66789.budgetminder.databinding.FragmentHomeBinding
+import io.github.shams66789.budgetminder.others.HomeAdapter
+import io.github.shams66789.budgetminder.roomdb.entity.BudgetMinder
+import io.github.shams66789.budgetminder.viewmodel.HomeViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private val binding : FragmentHomeBinding by lazy {
+        FragmentHomeBinding.inflate(layoutInflater)
+    }
+
+    var viewModel : HomeViewModel? = null
+    var transactionList = ArrayList<BudgetMinder>()
+    lateinit var adapter : HomeAdapter
+    var totalIncome = 0.0
+    var totalExpense = 0.0
+    val income = "Income"
+    val expense = "Expense"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        viewModel =ViewModelProvider(this)[HomeViewModel::class.java]
+
+
+        viewModel!!.data.observeForever{
+            transactionList.clear()
+            it.map {
+                transactionList.add(it)
+            }
+            getIncome()
+            getExpense()
+            adapter.notifyDataSetChanged()
+            updateVisibility()
+        }
+
+
+
+        binding.rv.layoutManager = LinearLayoutManager(context)
+        adapter = HomeAdapter(transactionList, requireContext())
+        binding.rv.adapter = adapter
+
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return binding.root
+
+
+
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    fun updateVisibility() {
+        if (binding.rv.adapter?.itemCount == 0) {
+            binding.rv.visibility  = View.GONE
+            binding.textView7.visibility = View.GONE
+            binding.imageView.visibility = View.VISIBLE
+        } else {
+            binding.rv.visibility  = View.VISIBLE
+            binding.textView7.visibility = View.VISIBLE
+            binding.imageView.visibility = View.GONE
+        }
     }
+
+    fun getIncome() {
+        val incomeList = if (transactionList.size == 0) {
+            transactionList
+        } else {
+            transactionList.filter {
+                it.type?.contains(income, ignoreCase = true)  == true
+            }
+        }
+
+        if (incomeList.isEmpty()) {
+            totalIncome = 0.0
+        } else {
+            incomeList.forEach {
+                totalIncome += it.amount!!
+            }
+        }
+
+        binding.textView2.setText(totalIncome.toString())
+    }
+
+    fun getExpense() {
+        val expenseList = if (transactionList.size == 0) {
+            transactionList
+        } else {
+            transactionList.filter {
+                it.type?.contains(expense, ignoreCase = true)  == true
+            }
+        }
+        if (expenseList.isEmpty()) {
+            totalExpense = 0.0
+        } else {
+            expenseList.forEach {
+                totalExpense += it.amount!!
+            }
+        }
+        binding.textView4.setText(totalExpense.toString())
+    }
+
+
 }
