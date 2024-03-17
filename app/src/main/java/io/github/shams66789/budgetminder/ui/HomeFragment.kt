@@ -1,5 +1,6 @@
 package io.github.shams66789.budgetminder.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.github.shams66789.budgetminder.CreateTransaction
 import io.github.shams66789.budgetminder.R
 import io.github.shams66789.budgetminder.databinding.FragmentHomeBinding
 import io.github.shams66789.budgetminder.others.HomeAdapter
@@ -39,6 +41,12 @@ class HomeFragment : Fragment() {
         viewModel =ViewModelProvider(this)[HomeViewModel::class.java]
 
 
+        binding.rv.layoutManager = LinearLayoutManager(context)
+        adapter = HomeAdapter(transactionList, requireContext())
+        binding.rv.adapter = adapter
+
+
+
         viewModel!!.data.observeForever{
             transactionList.clear()
             it.map {
@@ -50,18 +58,12 @@ class HomeFragment : Fragment() {
             updateVisibility()
         }
 
-
-
-        binding.rv.layoutManager = LinearLayoutManager(context)
-        adapter = HomeAdapter(transactionList, requireContext())
-        binding.rv.adapter = adapter
-
-
+        binding.textView7.setOnClickListener {
+            startActivity(Intent(requireContext(), TransactionFragment::class.java))
+        }
 
         // Inflate the layout for this fragment
         return binding.root
-
-
 
 
     }
@@ -86,6 +88,7 @@ class HomeFragment : Fragment() {
                 it.type?.contains(income, ignoreCase = true)  == true
             }
         }
+        totalIncome = 0.0
 
         if (incomeList.isEmpty()) {
             totalIncome = 0.0
@@ -94,8 +97,8 @@ class HomeFragment : Fragment() {
                 totalIncome += it.amount!!
             }
         }
-
-        binding.textView2.setText(totalIncome.toString())
+        val income = totalIncome.toString()
+        binding.textView2.setText("₹ $income")
     }
 
     fun getExpense() {
@@ -106,6 +109,7 @@ class HomeFragment : Fragment() {
                 it.type?.contains(expense, ignoreCase = true)  == true
             }
         }
+        totalExpense = 0.0
         if (expenseList.isEmpty()) {
             totalExpense = 0.0
         } else {
@@ -113,7 +117,9 @@ class HomeFragment : Fragment() {
                 totalExpense += it.amount!!
             }
         }
-        binding.textView4.setText(totalExpense.toString())
+
+        val expense = totalExpense.toString()
+        binding.textView4.setText("₹ $expense")
     }
 
 
