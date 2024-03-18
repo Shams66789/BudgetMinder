@@ -6,5 +6,11 @@
     <color name="expense">#FD3C4A</color>
     <color name="income_selected">#01734A</color>
     <color name="expense_selected">#C8212D</color>
+    <color name="movie">#EEE5FF</color>
+    <color name="party">#C3CBFA</color>
+    <color name="travelling">#BDDCFF</color>
+    <color name="shopping">#FCEED4</color>
+    <color name="food">#FDD5D7</color>
+    <color name="salary">#CFFAEA</color>
 
 </resources>

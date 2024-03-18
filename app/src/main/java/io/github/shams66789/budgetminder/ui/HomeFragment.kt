@@ -1,14 +1,13 @@
 package io.github.shams66789.budgetminder.ui
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.github.shams66789.budgetminder.CreateTransaction
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.github.shams66789.budgetminder.R
 import io.github.shams66789.budgetminder.databinding.FragmentHomeBinding
 import io.github.shams66789.budgetminder.others.HomeAdapter
@@ -59,7 +58,15 @@ class HomeFragment : Fragment() {
         }
 
         binding.textView7.setOnClickListener {
-            startActivity(Intent(requireContext(), TransactionFragment::class.java))
+            // Start the transaction to replace the fragment
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, TransactionFragment())
+                .commit()
+
+            // Assuming 'bottomNavigationView' is the ID of your Bottom Navigation View
+            // Update the Bottom Navigation Bar to show the Transaction menu item as active
+            val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            bottomNavigationView.selectedItemId = R.id.transaction
         }
 
         // Inflate the layout for this fragment
@@ -121,6 +128,4 @@ class HomeFragment : Fragment() {
         val expense = totalExpense.toString()
         binding.textView4.setText("₹ $expense")
     }
-
-
 }

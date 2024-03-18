@@ -29,7 +29,9 @@ class HomeAdapter(var transactionList : List<BudgetMinder>, var context: Context
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val transaction = transactionList[position]
 
-        if (transaction.type == "Income") {
+        if (transaction.category == "Salary") {
+            holder.binding.imageView2.setImageResource(R.drawable.affordable_icon)
+            holder.binding.imageView2.setBackgroundResource(R.color.salary)
             holder.binding.textView8.text = transaction.category
             holder.binding.textView9.text = transaction.description
             val income = transaction.amount.toString()
@@ -37,6 +39,22 @@ class HomeAdapter(var transactionList : List<BudgetMinder>, var context: Context
             holder.binding.textView10.setTextColor(ContextCompat.getColor(context, R.color.income))
             holder.binding.textView11.text = formatDate(transaction.data)
         } else {
+            if (transaction.category == "Movie") {
+                holder.binding.imageView2.setImageResource(R.drawable.outline_movie_24)
+                holder.binding.imageView2.setBackgroundResource(R.color.movie)
+            } else if (transaction.category == "Party") {
+                holder.binding.imageView2.setImageResource(R.drawable.club_party_icon)
+                holder.binding.imageView2.setBackgroundResource(R.color.party)
+            } else if (transaction.category == "Shopping") {
+                holder.binding.imageView2.setImageResource(R.drawable.outline_shopping_basket_24)
+                holder.binding.imageView2.setBackgroundResource(R.color.shopping)
+            } else if (transaction.category == "Food") {
+                holder.binding.imageView2.setImageResource(R.drawable.outline_food_bank_24)
+                holder.binding.imageView2.setBackgroundResource(R.color.food)
+            } else if (transaction.category == "Travelling") {
+                holder.binding.imageView2.setImageResource(R.drawable.outline_backpack_24)
+                holder.binding.imageView2.setBackgroundResource(R.color.travelling)
+            }
             holder.binding.textView8.text = transaction.category
             holder.binding.textView9.text = transaction.description
             val expense = transaction.amount.toString()
