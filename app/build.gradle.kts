@@ -56,4 +56,5 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }
