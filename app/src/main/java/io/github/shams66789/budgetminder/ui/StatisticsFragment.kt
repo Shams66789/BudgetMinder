@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -18,6 +19,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.material.tabs.TabLayout
 import io.github.shams66789.budgetminder.R
 import io.github.shams66789.budgetminder.roomdb.entity.BudgetMinder
 import io.github.shams66789.budgetminder.viewmodel.HomeViewModel
@@ -27,9 +29,9 @@ import kotlin.random.Random
 class StatisticsFragment : Fragment() {
 
     private lateinit var barChart: BarChart
-    private lateinit var viewModel: HomeViewModel
     private lateinit var pieChart: PieChart
-    private lateinit var toggleButton: ToggleButton
+    private lateinit var tabLayout: TabLayout
+    private lateinit var viewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,47 +40,68 @@ class StatisticsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_statistics, container, false)
         barChart = view.findViewById(R.id.barChart)
         pieChart = view.findViewById(R.id.pieChart)
-        toggleButton = view.findViewById(R.id.toggleButton)
+        tabLayout = view.findViewById(R.id.tabLayout)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
         // Set initial visibility
         barChart.visibility = View.VISIBLE
         pieChart.visibility = View.GONE
 
-        // Set OnClickListener for the toggle button
-        toggleButton.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                // Show PieChart
-                pieChart.visibility = View.VISIBLE
-                barChart.visibility = View.GONE
-                displayPieChart(viewModel.data.value ?: emptyList())
-            } else {
-                // Show BarChart
-                pieChart.visibility = View.GONE
-                barChart.visibility = View.VISIBLE
-                displayBarChart(viewModel.data.value ?: emptyList())
+        // Add tabs
+        tabLayout.addTab(tabLayout.newTab()
+            .setIcon(R.drawable.column_chart_icon)
+//            .setText("Bar Chart")
+        )
+        tabLayout.addTab(tabLayout.newTab()
+            .setIcon(R.drawable.pie_chart)
+//            .setText("Pie Chart")
+        )
+
+        // Set tab selected listener
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> showBarChart()
+                    1 -> showPieChart()
+                }
             }
-        }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
 
         // Observe data changes
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         viewModel.data.observe(viewLifecycleOwner, Observer { budgetMinders ->
-            if (toggleButton.isChecked) {
+            if (tabLayout.selectedTabPosition == 1) {
                 displayPieChart(budgetMinders)
             } else {
                 displayBarChart(budgetMinders)
             }
         })
+
+        // Display initial chart
+        displayBarChart(viewModel.data.value ?: emptyList())
+    }
+
+    private fun showBarChart() {
+        barChart.visibility = View.VISIBLE
+        pieChart.visibility = View.GONE
+        displayBarChart(viewModel.data.value ?: emptyList())
+    }
+
+    private fun showPieChart() {
+        pieChart.visibility = View.VISIBLE
+        barChart.visibility = View.GONE
+        displayPieChart(viewModel.data.value ?: emptyList())
     }
 
     private fun displayBarChart(budgetMinders: List<BudgetMinder>) {
-        // Implementation for BarChart
-        // ...
-
         val categoryAmountMap = mutableMapOf<String, Float>()
 
         // Calculate total amount for each category excluding those containing "Salary"
