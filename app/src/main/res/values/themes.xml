@@ -4,10 +4,10 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->\
         <item name="android:statusBarColor">
-            @android:color/transparent
+            @android:color/black
         </item>
         <item name="android:navigationBarColor">
-            @android:color/transparent
+            @android:color/black
         </item>
     </style>
 

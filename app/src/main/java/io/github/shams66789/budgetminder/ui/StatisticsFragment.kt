@@ -10,6 +10,8 @@ import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.BarData
@@ -21,6 +23,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayout
 import io.github.shams66789.budgetminder.R
+import io.github.shams66789.budgetminder.others.StatsAdapter
 import io.github.shams66789.budgetminder.roomdb.entity.BudgetMinder
 import io.github.shams66789.budgetminder.viewmodel.HomeViewModel
 import kotlin.random.Random
@@ -46,6 +49,9 @@ class StatisticsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val statsRecyclerView: RecyclerView = view.findViewById(R.id.rvStats)
+        statsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
@@ -78,6 +84,21 @@ class StatisticsFragment : Fragment() {
 
         // Observe data changes
         viewModel.data.observe(viewLifecycleOwner, Observer { budgetMinders ->
+            val filteredData = budgetMinders.filter { budgetMinder ->
+                val category = budgetMinder.category
+                category != null && !category.contains("Salary")
+            }
+
+            val sortedData = filteredData.groupBy { it.category ?: "" }
+                .mapValues { (_, items) -> items.sumByDouble { item -> item.amount?.toDouble() ?: 0.0 }.toFloat() }
+                .toList()
+                .sortedByDescending { it.second }
+
+
+// Pass non-nullable category values to the adapter
+            val adapter = StatsAdapter(sortedData.map { (category, amount) -> category to amount }) // Convert Double to Float in the pairs
+            statsRecyclerView.adapter = adapter
+
             if (tabLayout.selectedTabPosition == 1) {
                 displayPieChart(budgetMinders)
             } else {
@@ -174,6 +195,7 @@ class StatisticsFragment : Fragment() {
 
         val pieDataSet = PieDataSet(entries, "Category Amount")
         pieDataSet.colors = colors // Set colors for the dataset
+        pieDataSet.valueTextColor = Color.TRANSPARENT // Set value text color to transparent
 
         val data = PieData(pieDataSet)
         pieChart.data = data
