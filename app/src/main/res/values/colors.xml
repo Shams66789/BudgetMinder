@@ -4,8 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="income">#00A86B</color>
     <color name="expense">#FD3C4A</color>
-    <color name="income_selected">#01734A</color>
-    <color name="expense_selected">#C8212D</color>
+    <color name="income_selected">#003C27</color>
+    <color name="expense_selected">#7C121A</color>
     <color name="movie">#EEE5FF</color>
     <color name="party">#C3CBFA</color>
     <color name="travelling">#BDDCFF</color>
