@@ -13,15 +13,15 @@ Welcome to the BudgetMinder app repository! BudgetMinder is an Android applicati
 
 Here are some screenshots of the BudgetMinder app:
 
-<img src="Screenshots/SplashScreen.jpg" alt="Screenshot 1" width="200"/> <img src="Screenshots/HomePageLight.jpg" alt="Screenshot 1" width="200"/>
-<img src="Screenshots/AddingPage.jpg" alt="Screenshot 1" width="200"/><img src="Screenshots/BarGraph.jpg" alt="Screenshot 1" width="200"/>
-<img src="Screenshots/Statistics.jpg.jpg" alt="Screenshot 1" width="200"/>
+<img src="Screenshots/SplashScreen.jpg" alt="Screenshot 1" width="200"/>    <img src="Screenshots/HomePageLight.jpg" alt="Screenshot 2" width="200"/>
+<img src="Screenshots/AddingPage.jpg" alt="Screenshot 3" width="200"/>    <img src="Screenshots/BarGraph.jpg" alt="Screenshot 4" width="200"/>
+<img src="Screenshots/Statistics.jpg" alt="Screenshot 5" width="200"/>    <img src="Screenshots/AllTransaction.jpg" alt="Screenshot 6" width="200"/>
 
 ## Download
 
 You can download the latest version of the BudgetMinder app from the link below:
 
-[Download BudgetMinder App APK](#)
+[Download BudgetMinder App APK](https://github.com/Shams66789/BudgetMinder/raw/main/APK/Budget%20Minder.apk)
 
 ## Installation
 
